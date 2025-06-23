@@ -1,4 +1,5 @@
 # database/schema.py
+
 import logging
 import asyncpg
 from typing import Optional, Dict, Any
@@ -45,7 +46,6 @@ CREATE INDEX IF NOT EXISTS idx_validacoes_gerais_dado_normalizado_tipo_app ON va
 """
 
 # 3. Defina o SQL para CRIAR A FUNÇÃO (se você quiser usar a função de atualização de updated_at)
-# NOTA: O 'FUNCTION' deve ser parte de um comando CREATE FUNCTION, não avulso
 CREATE_UPDATE_FUNCTION_SQL = """
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -93,8 +93,7 @@ async def initialize_database(db_manager: DatabaseManager):
 
     except asyncpg.exceptions.PostgresError as e:
         logger.critical(f"Falha CRÍTICA ao inicializar o esquema do banco de dados (asyncpg): {e}", exc_info=True)
-        # Re-raise a exceção para ser capturada no api_main.py e interromper a aplicação
-        raise
+        raise # Re-raise a exceção para ser capturada no api_main.py e interromper a aplicação
     except Exception as e:
         logger.critical(f"Erro inesperado durante a inicialização do banco de dados (geral): {e}", exc_info=True)
         raise
