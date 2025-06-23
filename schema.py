@@ -2,10 +2,9 @@
 
 import logging
 import asyncpg
-from typing import Optional, Dict, Any
-from datetime import datetime, timezone
-from app.database.manager import DatabaseManager
-from pydantic import BaseModel, Field
+# Remova imports não utilizados se houver, como typing, datetime, pydantic.BaseModel, Field se não forem usados diretamente aqui
+
+from app.database.manager import DatabaseManager # Importe DatabaseManager
 
 logger = logging.getLogger(_name_)
 
@@ -80,12 +79,10 @@ async def initialize_database(db_manager: DatabaseManager):
         logger.info("Índices para 'validacoes_gerais' verificados/criados.")
 
         # 3. Executa a criação da função (descomente se quiser usar)
-        # Se você não for usar o auto-update de 'updated_at', pode remover estas duas linhas.
         await conn.execute(CREATE_UPDATE_FUNCTION_SQL)
         logger.info("Função 'update_updated_at_column' verificada/criada.")
 
         # 4. Executa a criação do trigger (descomente se quiser usar)
-        # Certifique-se de que a função acima foi criada antes do trigger.
         await conn.execute(CREATE_TRIGGER_SQL)
         logger.info("Trigger 'trg_validacoes_gerais_updated_at' verificada/criada.")
 
@@ -101,4 +98,4 @@ async def initialize_database(db_manager: DatabaseManager):
         if conn:
             await db_manager.put_connection(conn) # Garante que a conexão é retornada ao pool
 
-# ... (outras classes e funções abaixo, como ValidationRecord etc.)
+# ... (qualquer outro código abaixo, como modelos Pydantic ou outras funções)
